@@ -3,13 +3,26 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    packagingOptions {
+        pickFirst 'lib/armv7a/libijksdl.so'
+        pickFirst 'lib/armv7a/libijkwdzffmpeg.so'
+        pickFirst 'lib/arm64-v8a/libijkplayer.so'
+        pickFirst 'lib/arm64-v8a/libijksdl.so'
+        pickFirst 'lib/arm64-v8a/libijkwdzffmpeg.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+    }
+
     // http://tools.android.com/tech-docs/new-build-system/tips
     //noinspection GroovyAssignabilityCheck
     compileSdkVersion rootProject.ext.compileSdkVersion
     //noinspection GroovyAssignabilityCheck
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     lintOptions {
@@ -56,10 +69,11 @@ dependencies {
     implementation project(':ijkplayer-arm64')
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
 //    替换成包名依赖，方便打包上传nexus
-//    implementation 'io.github.jdpxiaoming:ijkplayer-view:0.0.25'
-//    implementation 'io.github.jdpxiaoming:ijkplayer-java:0.0.25'
-//    implementation 'io.github.jdpxiaoming:ijkplayer-armv7a:0.0.25'
-//    implementation 'io.github.jdpxiaoming:ijkplayer-arm64:0.0.25'
+//    implementation 'io.github.jdpxiaoming:ijkplayer-view:0.0.26'
+//    implementation 'io.github.jdpxiaoming:ijkplayer-java:0.0.26'
+//    implementation 'io.github.jdpxiaoming:ijkplayer-armv7a:0.0.26'
+    //看情况如果需要64位so则引入.
+    implementation 'io.github.jdpxiaoming:ijkplayer-arm64:0.0.26'
 //    内存泄漏辅助类
     debugImplementation ('com.squareup.leakcanary:leakcanary-android:2.2') {
         exclude group : 'com.android.support'

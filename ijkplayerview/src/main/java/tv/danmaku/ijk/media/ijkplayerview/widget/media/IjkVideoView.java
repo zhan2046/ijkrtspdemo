@@ -1386,7 +1386,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     ijkMediaPlayer = new IjkMediaPlayer();
                     ijkMediaPlayer.native_setLogLevel(mLogLevel);
                     Log.e(TAG, "create mediaplayer#setVideoZeroDelay!~" + isVideoZeroDelay);
-                    ijkMediaPlayer.setVideoZeroDelay(isVideoZeroDelay);
+                    //ijkMediaPlayer.setVideoZeroDelay(isVideoZeroDelay);
                     //ijk不支持rtmp设置超时，原因是ffmpeg的问题 .
                     if (mTimeOut > 0) {
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "initial_timeout", mTimeOut);

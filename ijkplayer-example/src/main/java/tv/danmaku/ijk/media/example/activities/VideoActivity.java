@@ -91,7 +91,9 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         mSharedPreferences.edit().putString(key,String.valueOf(Settings.PV_PLAYER__IjkMediaPlayer)).apply();
 
         // handle arguments
-        mVideoPath = "rtsp://106.75.210.197:5555/rtsp/66fbb1e3-1834-466f-a4b8-b7e01e04a130";//IPC - h264.
+//        mVideoPath = "rtsp://rtsp-test-server.viomic.com:554/stream";//IPC - h264.
+        mVideoPath = "rtsp://admin:RFYOPK@10.1.11.27:554/h264/ch1/main/av_stream";//IPC - h264.
+//        mVideoPath = "https://file-examples.com/storage/feed2327706616bd9a07caa/2017/04/file_example_MP4_640_3MG.mp4";//IPC - h264.
 
         // init UI
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -124,10 +126,10 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         //设置h265
         if(mVideoPath.startsWith("rtsp")){
             mVideoView.setH265(true);
-            mVideoView.openZeroVideoDelay(true);
+            //mVideoView.openZeroVideoDelay(true);
         }else{
             //打开视频0延迟.
-            mVideoView.openZeroVideoDelay(true);
+            //mVideoView.openZeroVideoDelay(true);
         }
 
         // prefer mVideoPath
@@ -144,7 +146,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
             @Override
             public void onPrepared(IMediaPlayer mp) {
                 Log.e(TAG, "onPrepared#done! ");
-                mVideoView.openZeroVideoDelay(true);
+                //mVideoView.openZeroVideoDelay(true);
             }
         });
 

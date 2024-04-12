@@ -144,8 +144,9 @@ public class IjkPrettyVideoView extends FrameLayout
      * @param timeout
      */
     public void setTimeout(long timeout){
-        if(null != mIjkVideoView)
-        mIjkVideoView.setTimeOut(timeout);
+        if(null != mIjkVideoView) {
+            mIjkVideoView.setTimeOut(timeout);
+        }
     }
 
 

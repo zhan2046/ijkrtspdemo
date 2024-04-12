@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+
 android {
     // http://tools.android.com/tech-docs/new-build-system/tips
     //noinspection GroovyAssignabilityCheck
@@ -6,7 +7,7 @@ android {
     //noinspection GroovyAssignabilityCheck
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion as int
+        minSdkVersion 9
         targetSdkVersion rootProject.ext.targetSdkVersion
     }
     buildTypes {
@@ -24,7 +25,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
-uploadArchives {
 
-}
-apply from: new File(rootProject.projectDir, "tools/gradle-mvn-push.gradle");
+apply from: new File(rootProject.projectDir, "tools/gradle-on-demand.gradle");

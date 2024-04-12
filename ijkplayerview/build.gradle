@@ -39,9 +39,5 @@ dependencies {
 //    implementation project(path: ':ijkplayer-java')
 //    implementation project(path: ':ijkplayer-exo')
 //    替换成包名依赖，方便打包上传nexus
-    implementation 'io.github.jdpxiaoming:ijkplayer-java:0.0.25'
+    implementation project(':ijkplayer-java')
 }
-uploadArchives{
-
-}
-apply from: new File(rootProject.projectDir, "tools/gradle-mvn-push.gradle");
