@@ -40,4 +40,5 @@ dependencies {
 //    implementation project(path: ':ijkplayer-exo')
 //    替换成包名依赖，方便打包上传nexus
     implementation project(':ijkplayer-java')
+    //    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-java:1.0.0'
 }

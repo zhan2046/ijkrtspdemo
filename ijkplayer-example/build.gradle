@@ -62,21 +62,21 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation 'com.squareup:otto:1.3.8'
-//    implementation project(':ijkplayerview')
-//    implementation project(':ijkplayer-java')
-//    implementation project(':ijkplayer-armv7a')
-//    implementation project(':ijkplayer-exo')
-//    implementation project(':ijkplayer-arm64')
+    implementation project(':ijkplayerview')
+    implementation project(':ijkplayer-java')
+    implementation project(':ijkplayer-armv7a')
+    implementation project(':ijkplayer-exo')
+    implementation project(':ijkplayer-arm64')
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
 //    替换成包名依赖，方便打包上传nexus
 //    implementation 'io.github.jdpxiaoming:ijkplayer-view:0.0.26'
 //    implementation 'io.github.jdpxiaoming:ijkplayer-java:0.0.26'
 //    implementation 'io.github.jdpxiaoming:ijkplayer-armv7a:0.0.26'
-    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-arm64:1.0.0'
-    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-armv7a:1.0.0'
-    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-java:1.0.0'
-    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayerview:1.0.0'
-    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-exo:1.0.0'
+//    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-arm64:1.0.0'
+//    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-armv7a:1.0.0'
+//    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-java:1.0.0'
+//    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayerview:1.0.0'
+//    implementation 'com.github.zhan2046.ijkrtspdemo:ijkplayer-exo:1.0.0'
     //看情况如果需要64位so则引入.
 //    implementation 'io.github.jdpxiaoming:ijkplayer-arm64:0.0.26'
 //    内存泄漏辅助类
