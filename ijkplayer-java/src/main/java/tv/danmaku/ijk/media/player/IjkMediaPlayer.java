@@ -203,7 +203,8 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
                 if (libLoader == null)
                     libLoader = sLocalLibLoader;
 
-                libLoader.loadLibrary("ijkwdzffmpeg");
+//                libLoader.loadLibrary("ijkwdzffmpeg");
+                libLoader.loadLibrary("ijkffmpeg");
                 libLoader.loadLibrary("ijksdl");
                 libLoader.loadLibrary("ijkplayer");
                 mIsLibLoaded = true;
@@ -1321,7 +1322,9 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
 
     public native int startRecord(String path);
     public native int stopRecord();
-    public native boolean getCurrentFrame(Bitmap bitmap);
+    public native int getCurrentFrame(String path);
 
     public native int startingRecord();
+
+    public native int isRecord();
 }

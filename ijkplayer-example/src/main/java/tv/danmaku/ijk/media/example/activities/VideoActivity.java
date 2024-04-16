@@ -150,24 +150,20 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         IjkMediaPlayer iMediaPlayer = (IjkMediaPlayer) mVideoView.mMediaPlayer;
         int width = iMediaPlayer.getVideoWidth();
         int height = iMediaPlayer.getVideoHeight();
-        Bitmap srcBitmap = Bitmap.createBitmap(width,
-                height, Bitmap.Config.ARGB_8888);
-        boolean flag = iMediaPlayer.getCurrentFrame(srcBitmap);
-        if (flag) {
-            // 保存图片
-            String path = getFilesDir().getPath() + "/ijkplayer/snapshot";
-            File screenshotsDirectory = new File(path);
-            if (!screenshotsDirectory.exists()) {
-                screenshotsDirectory.mkdirs();
-            }
-            File savePath = new File(
-                    screenshotsDirectory.getPath()
-                            + "/"
-                            + new SimpleDateFormat("yyyyMMddHHmmss")
-                            .format(new Date()) + ".jpg");
-            save(srcBitmap, savePath, Bitmap.CompressFormat.PNG, 100, false);
+        // 保存图片
+        String path = getFilesDir().getPath() + "/ijkplayer/snapshot";
+        File screenshotsDirectory = new File(path);
+        if (!screenshotsDirectory.exists()) {
+            screenshotsDirectory.mkdirs();
         }
-        return flag;
+        File savePath = new File(
+                screenshotsDirectory.getPath()
+                        + "/"
+                        + new SimpleDateFormat("yyyyMMddHHmmss")
+                        .format(new Date()) + ".jpg");
+        iMediaPlayer.getCurrentFrame(savePath.getPath());
+//        save(srcBitmap, savePath, Bitmap.CompressFormat.PNG, 100, false);
+        return true;
     }
 
     @Override
