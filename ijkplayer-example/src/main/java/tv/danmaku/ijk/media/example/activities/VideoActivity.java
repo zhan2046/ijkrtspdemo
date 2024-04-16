@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -48,6 +47,8 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import tv.danmaku.ijk.media.example.R;
+import tv.danmaku.ijk.media.example.fragments.TracksFragment;
 import tv.danmaku.ijk.media.ijkplayerview.utils.Settings;
 import tv.danmaku.ijk.media.ijkplayerview.widget.media.AndroidMediaController;
 import tv.danmaku.ijk.media.ijkplayerview.widget.media.IRenderView;
@@ -56,8 +57,6 @@ import tv.danmaku.ijk.media.ijkplayerview.widget.media.MeasureHelper;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.misc.ITrackInfo;
-import tv.danmaku.ijk.media.example.R;
-import tv.danmaku.ijk.media.example.fragments.TracksFragment;
 
 /**
  * ijkplayer 视频播放类.
@@ -65,7 +64,7 @@ import tv.danmaku.ijk.media.example.fragments.TracksFragment;
 public class VideoActivity extends AppCompatActivity implements TracksFragment.ITrackHolder {
     private static final String TAG = "VideoActivity";
 
-    private String mVideoPath ;
+    private String mVideoPath;
 
     private AndroidMediaController mMediaController;
     private IjkVideoView mVideoView;
@@ -161,7 +160,6 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
             if (!screenshotsDirectory.exists()) {
                 screenshotsDirectory.mkdirs();
             }
-
             File savePath = new File(
                     screenshotsDirectory.getPath()
                             + "/"
@@ -209,7 +207,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         //设置启用exoPlayer.
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String key = this.getString(tv.danmaku.ijk.media.ijkplayerview.R.string.pref_key_player);
-        mSharedPreferences.edit().putString(key,String.valueOf(Settings.PV_PLAYER__IjkMediaPlayer)).apply();
+        mSharedPreferences.edit().putString(key, String.valueOf(Settings.PV_PLAYER__IjkMediaPlayer)).apply();
 
         // handle arguments
 //        mVideoPath = "rtsp://rtsp-test-server.viomic.com:554/stream";//IPC - h264.
@@ -245,10 +243,10 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         //set the headers properties in user-agent.
         mVideoView.setUserAgentStr("Android_Station_V1.1.1");
         //设置h265
-        if(mVideoPath.startsWith("rtsp")){
+        if (mVideoPath.startsWith("rtsp")) {
             mVideoView.setH265(true);
             //mVideoView.openZeroVideoDelay(true);
-        }else{
+        } else {
             //打开视频0延迟.
             //mVideoView.openZeroVideoDelay(true);
         }
@@ -286,10 +284,9 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         });
 
 
-
         mVideoView.setAspectRatio(IRenderView.AR_16_9_FIT_PARENT);
         mLastStartTime = SystemClock.currentThreadTimeMillis();
-        Log.i(TAG,"start play ~~ #  "+mLastStartTime);
+        Log.i(TAG, "start play ~~ #  " + mLastStartTime);
         mVideoView.start();
     }
 
@@ -301,7 +298,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("poe","onStop()");
+        Log.i("poe", "onStop()");
         if (mBackPressed || !mVideoView.isBackgroundPlayEnabled()) {
             mVideoView.stopPlayback();
             mVideoView.release(true);
