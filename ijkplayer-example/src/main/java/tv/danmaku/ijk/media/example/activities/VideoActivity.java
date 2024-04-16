@@ -19,6 +19,7 @@ package tv.danmaku.ijk.media.example.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -37,6 +39,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import tv.danmaku.ijk.media.ijkplayerview.utils.Settings;
 import tv.danmaku.ijk.media.ijkplayerview.widget.media.AndroidMediaController;
@@ -79,10 +89,121 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         context.startActivity(newIntent(context, videoPath, videoTitle));
     }
 
+    private static boolean isEmptyBitmap(final Bitmap src) {
+        return src == null || src.getWidth() == 0 || src.getHeight() == 0;
+    }
+
+    public static boolean createOrExistsDir(final File file) {
+        return file != null && (file.exists() ? file.isDirectory() : file.mkdirs());
+    }
+
+    public static boolean createFileByDeleteOldFile(final File file) {
+        if (file == null) return false;
+        // file exists and unsuccessfully delete then return false
+        if (file.exists() && !file.delete()) return false;
+        if (!createOrExistsDir(file.getParentFile())) return false;
+        try {
+            return file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean save(final Bitmap src,
+                               final File file,
+                               final Bitmap.CompressFormat format,
+                               final int quality,
+                               final boolean recycle) {
+        if (isEmptyBitmap(src)) {
+            Log.e("ImageUtils", "bitmap is empty.");
+            return false;
+        }
+        if (src.isRecycled()) {
+            Log.e("ImageUtils", "bitmap is recycled.");
+            return false;
+        }
+        if (!createFileByDeleteOldFile(file)) {
+            Log.e("ImageUtils", "create or delete file <" + file + "> failed.");
+            return false;
+        }
+        OutputStream os = null;
+        boolean ret = false;
+        try {
+            os = new BufferedOutputStream(new FileOutputStream(file));
+            ret = src.compress(format, quality, os);
+            if (recycle && !src.isRecycled()) src.recycle();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (os != null) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return ret;
+    }
+
+    public boolean snapshotPicture() {
+        IjkMediaPlayer iMediaPlayer = (IjkMediaPlayer) mVideoView.mMediaPlayer;
+        int width = iMediaPlayer.getVideoWidth();
+        int height = iMediaPlayer.getVideoHeight();
+        Bitmap srcBitmap = Bitmap.createBitmap(width,
+                height, Bitmap.Config.ARGB_8888);
+        boolean flag = iMediaPlayer.getCurrentFrame(srcBitmap);
+        if (flag) {
+            // 保存图片
+            String path = getFilesDir().getPath() + "/ijkplayer/snapshot";
+            File screenshotsDirectory = new File(path);
+            if (!screenshotsDirectory.exists()) {
+                screenshotsDirectory.mkdirs();
+            }
+
+            File savePath = new File(
+                    screenshotsDirectory.getPath()
+                            + "/"
+                            + new SimpleDateFormat("yyyyMMddHHmmss")
+                            .format(new Date()) + ".jpg");
+            save(srcBitmap, savePath, Bitmap.CompressFormat.PNG, 100, false);
+        }
+        return flag;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
+        TextView screenShotBtn = (TextView) findViewById(R.id.screenShotBtn);
+        TextView startRecordBtn = (TextView) findViewById(R.id.startRecordBtn);
+        TextView stopRecordBtn = (TextView) findViewById(R.id.stopRecordBtn);
+
+        screenShotBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snapshotPicture();
+            }
+        });
+        startRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IjkMediaPlayer iMediaPlayer = (IjkMediaPlayer) mVideoView.mMediaPlayer;
+                String path = getFilesDir().getPath() + "/"
+                        + new SimpleDateFormat("yyyyMMddHHmmss")
+                        .format(new Date()) + ".mp4";
+                iMediaPlayer.startRecord(path);
+            }
+        });
+        stopRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IjkMediaPlayer iMediaPlayer = (IjkMediaPlayer) mVideoView.mMediaPlayer;
+                iMediaPlayer.stopRecord();
+            }
+        });
 
         mSettings = new Settings(this);
         //设置启用exoPlayer.

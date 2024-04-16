@@ -95,7 +95,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     // All the stuff we need for playing and showing a video
     private IRenderView.ISurfaceHolder mSurfaceHolder = null;
-    private IMediaPlayer mMediaPlayer = null;
+    public IMediaPlayer mMediaPlayer = null;
     // private int  mAudioSession;
     private int mVideoWidth;
     private int mVideoHeight;
