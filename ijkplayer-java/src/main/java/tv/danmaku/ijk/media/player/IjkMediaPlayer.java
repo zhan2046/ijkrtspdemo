@@ -71,7 +71,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
                 /*libLoader.loadLibrary("ijkwdzffmpeg");
                 libLoader.loadLibrary("ijksdl");
                 libLoader.loadLibrary("ijkplayer");*/
-    public static final String IJK_LIB_NAME_FFMPEG = "libijkwdzffmpeg.so";//ijk中的ffmpeg库名字
+    public static final String IJK_LIB_NAME_FFMPEG = "libijkffmpeg.so";//ijk中的ffmpeg库名字
 
     private static final int MEDIA_NOP = 0; // interface test message
     private static final int MEDIA_PREPARED = 1;

@@ -185,17 +185,21 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
             @Override
             public void onClick(View v) {
                 IjkMediaPlayer iMediaPlayer = (IjkMediaPlayer) mVideoView.mMediaPlayer;
-                String path = getFilesDir().getPath() + "/"
-                        + new SimpleDateFormat("yyyyMMddHHmmss")
-                        .format(new Date()) + ".mp4";
-                iMediaPlayer.startRecord(path);
+                if (iMediaPlayer.isRecord() == 0) {
+                    String path = getFilesDir().getPath() + "/"
+                            + new SimpleDateFormat("yyyyMMddHHmmss")
+                            .format(new Date()) + ".mp4";
+                    iMediaPlayer.startRecord(path);
+                }
             }
         });
         stopRecordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IjkMediaPlayer iMediaPlayer = (IjkMediaPlayer) mVideoView.mMediaPlayer;
-                iMediaPlayer.stopRecord();
+                if (iMediaPlayer.isRecord() == 1) {
+                    iMediaPlayer.stopRecord();
+                }
             }
         });
 
@@ -206,8 +210,8 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         mSharedPreferences.edit().putString(key, String.valueOf(Settings.PV_PLAYER__IjkMediaPlayer)).apply();
 
         // handle arguments
-//        mVideoPath = "rtsp://rtsp-test-server.viomic.com:554/stream";//IPC - h264.
-        mVideoPath = "rtsp://admin:RFYOPK@10.1.11.27:554/h264/ch1/main/av_stream";//IPC - h264.
+        mVideoPath = "rtsp://rtsp-test-server.viomic.com:554/stream";//IPC - h264.
+//        mVideoPath = "rtsp://admin:RFYOPK@10.1.11.27:554/h264/ch1/main/av_stream";//IPC - h264.
 //        mVideoPath = "https://file-examples.com/storage/feed2327706616bd9a07caa/2017/04/file_example_MP4_640_3MG.mp4";//IPC - h264.
 
         // init UI
