@@ -22,6 +22,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -31,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -162,8 +165,28 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
                         + new SimpleDateFormat("yyyyMMddHHmmss")
                         .format(new Date()) + ".jpg");
         iMediaPlayer.getCurrentFrame(savePath.getPath());
-//        save(srcBitmap, savePath, Bitmap.CompressFormat.PNG, 100, false);
+        mainHandler.removeCallbacks(screenshotTask);
+        mainHandler.postDelayed(screenshotTask, 200);
         return true;
+    }
+
+    private Handler mainHandler = new Handler(Looper.getMainLooper());
+    private ScreenshotTask screenshotTask = new ScreenshotTask();
+
+    class ScreenshotTask implements Runnable {
+
+
+        @Override
+        public void run() {
+            IjkMediaPlayer iMediaPlayer = (IjkMediaPlayer) mVideoView.mMediaPlayer;
+            boolean isScreenshotSuccess = iMediaPlayer.isScreenshotSuccess() == 1;
+            mainHandler.removeCallbacks(screenshotTask);
+            if (isScreenshotSuccess) {
+                Toast.makeText(getApplicationContext(), "screenshot success", Toast.LENGTH_LONG).show();
+            } else {
+                mainHandler.postDelayed(screenshotTask, 200);
+            }
+        }
     }
 
     @Override
@@ -210,7 +233,8 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         mSharedPreferences.edit().putString(key, String.valueOf(Settings.PV_PLAYER__IjkMediaPlayer)).apply();
 
         // handle arguments
-        mVideoPath = "rtsp://rtsp-test-server.viomic.com:554/stream";//IPC - h264.
+        mVideoPath = "rtsp://10.1.12.12/live1.sdp";//IPC - h264.
+//        mVideoPath = "rtsp://rtsp-test-server.viomic.com:554/stream";//IPC - h264.
 //        mVideoPath = "rtsp://admin:RFYOPK@10.1.11.27:554/h264/ch1/main/av_stream";//IPC - h264.
 //        mVideoPath = "https://file-examples.com/storage/feed2327706616bd9a07caa/2017/04/file_example_MP4_640_3MG.mp4";//IPC - h264.
 

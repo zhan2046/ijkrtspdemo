@@ -1327,5 +1327,11 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
     // 如果是在录像中返回的值是 1
     public native int isRecord();
 
+    // 如果是在录像 关键帧 中返回的值是 1
+    public native int isRecordStarting();
+
+    // 如果是截图完成 返回的值是 1
+    public native int isScreenshotSuccess();
+
     public native int getCurrentFrame(String saveFile);
 }
